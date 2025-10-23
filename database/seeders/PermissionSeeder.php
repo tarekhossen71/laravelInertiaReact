@@ -96,5 +96,71 @@ class PermissionSeeder extends Seeder
             'name'=>'Edit',
             'slug'=>'app.setting.edit'
         ]);
+
+        // Subscription Permission
+        $subcriptionModule = Module::updateOrCreate(['name'=>'Subscription Manage'],['name'=>'Subscription Manage']);
+        Permission::updateOrCreate([
+            'module_id'=>$subcriptionModule->id,
+            'name'=>'Access',
+            'slug'=>'app.subcription.index'
+        ]);
+        Permission::updateOrCreate([
+            'module_id'=>$subcriptionModule->id,
+            'name'=>'Create',
+            'slug'=>'app.subcription.create'
+        ]);
+        Permission::updateOrCreate([
+            'module_id'=>$subcriptionModule->id,
+            'name'=>'Edit',
+            'slug'=>'app.subcription.edit'
+        ]);
+        Permission::updateOrCreate([
+            'module_id'=>$subcriptionModule->id,
+            'name'=>'View',
+            'slug'=>'app.subcription.view'
+        ]);
+        Permission::updateOrCreate([
+            'module_id'=>$subcriptionModule->id,
+            'name'=>'Delete',
+            'slug'=>'app.subcription.delete'
+        ]);
+        Permission::updateOrCreate([
+            'module_id'=>$subcriptionModule->id,
+            'name'=>'Bulk Delete',
+            'slug'=>'app.subcription.bulk-delete'
+        ]);
+
+        // Plan Permission
+        $planModule = Module::updateOrCreate(['name'=>'Plan Manage'],['name'=>'Plan Manage']);
+        Permission::updateOrCreate([
+            'module_id'=>$planModule->id,
+            'name'=>'Access',
+            'slug'=>'app.plan.index'
+        ]);
+        Permission::updateOrCreate([
+            'module_id'=>$planModule->id,
+            'name'=>'Create',
+            'slug'=>'app.plan.create'
+        ]);
+        Permission::updateOrCreate([
+            'module_id'=>$planModule->id,
+            'name'=>'Edit',
+            'slug'=>'app.plan.edit'
+        ]);
+        Permission::updateOrCreate([
+            'module_id'=>$planModule->id,
+            'name'=>'View',
+            'slug'=>'app.plan.view'
+        ]);
+        Permission::updateOrCreate([
+            'module_id'=>$planModule->id,
+            'name'=>'Delete',
+            'slug'=>'app.plan.delete'
+        ]);
+        Permission::updateOrCreate([
+            'module_id'=>$planModule->id,
+            'name'=>'Bulk Delete',
+            'slug'=>'app.plan.bulk-delete'
+        ]);
     }
 }

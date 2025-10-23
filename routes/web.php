@@ -3,10 +3,12 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SubscriptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,12 +22,7 @@ use App\Http\Controllers\SettingController;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('Home');
 });
 
 
@@ -68,4 +65,19 @@ Route::group(['as'=>'app.','middleware'=>['auth','permission']], function(){
     // Setting Routes
     Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
     Route::post('settings/store-or-update', [SettingController::class, 'storeOrUpdate'])->name('setting.store-or-update');
+
+    // Plan CRUD
+    Route::resource('plan', PlanController::class)->names([
+        'index' => 'plan.index',
+        'create' => 'plan.create',
+        'store' => 'plan.store',
+        'edit' => 'plan.edit',
+        'update' => 'plan.update',
+        'destroy' => 'plan.destroy',
+    ]);
+
+    // Subscriptions
+    Route::get('subscription', [SubscriptionController::class,'index'])->name('subscription.index');
+    Route::get('subscription/create', [SubscriptionController::class,'create'])->name('subscription.create');
+    Route::post('subscription', [SubscriptionController::class,'store'])->name('subscription.store');
 });
