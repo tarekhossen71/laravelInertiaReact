@@ -21,6 +21,12 @@ use App\Http\Controllers\SubscriptionController;
 |
 */
 
+Route::get('/landing', function () {
+    return view('landing');
+});
+Route::get('/landing2', function () {
+    return view('landing2');
+});
 Route::get('/', function () {
     return Inertia::render('Home');
 });
