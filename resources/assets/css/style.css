@@ -1,0 +1,16 @@
+.required:after {
+    content: " *";
+    color: red;
+}
+/* Sidebar Toggle for Small Screens */
+@media (max-width: 1200px) {
+  #layout-menu {
+    position: fixed;
+    left: -260px;
+    transition: left 0.3s ease;
+    z-index: 1050;
+  }
+  #layout-menu.active {
+    left: 0;
+  }
+}
