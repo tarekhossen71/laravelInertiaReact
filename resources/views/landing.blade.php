@@ -116,32 +116,54 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="pt-32 pb-20 px-4">
-        <div class="container mx-auto">
+    <section id="home" class="relative min-h-screen flex items-center justify-center text-white overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0">
+            <img src="{{ asset('perfume-bg.jpg') }}" 
+                alt="Luxury Perfume Background" 
+                class="w-full h-full object-cover object-center">
+            <!-- Dark Overlay -->
+            <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="relative z-10 container mx-auto px-6 md:px-12">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div data-aos="fade-right" data-aos-duration="1000">
-                    <p class="text-gold font-sans font-medium tracking-widest mb-4">SIGNATURE FRAGRANCE</p>
-                    <h1 class="font-serif text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+                    <p class="text-gold font-sans font-semibold tracking-[0.3em] mb-4 uppercase">
+                        Signature Fragrance
+                    </p>
+                    <h1 class="font-serif text-5xl md:text-7xl font-bold mb-6 leading-tight">
                         ÉLÉGANCE
                     </h1>
-                    <h2 class="font-serif text-2xl md:text-3xl text-gray-600 mb-6">
+                    <h2 class="font-serif text-2xl md:text-3xl text-gray-200 mb-6 italic">
                         An Ode to Timeless Luxury
                     </h2>
-                    <p class="text-gray-700 text-lg mb-8 leading-relaxed">
-                        Experience the pinnacle of olfactory artistry. ÉLÉGANCE is a masterfully crafted symphony of rare ingredients, capturing the essence of sophistication and refinement. Each note unfolds like a precious memory, leaving an unforgettable trail of elegance.
+                    <p class="text-gray-300 text-lg mb-8 leading-relaxed max-w-xl">
+                        Experience the pinnacle of olfactory artistry. ÉLÉGANCE is a masterfully crafted symphony of rare ingredients, 
+                        capturing the essence of sophistication and refinement. Each note unfolds like a precious memory, 
+                        leaving an unforgettable trail of elegance.
                     </p>
-                    <a href="#buy" class="btn-gold text-white px-8 py-4 rounded-full font-medium text-lg inline-block">
-                        Discover Now <i class="fas fa-arrow-right ml-2"></i>
+                    <a href="#buy" 
+                    class="inline-flex items-center bg-gold hover:bg-yellow-500 transition-all duration-300 text-white px-8 py-4 rounded-full font-medium text-lg shadow-lg">
+                        Discover Now 
+                        <i class="fas fa-arrow-right ml-3"></i>
                     </a>
                 </div>
-                <div data-aos="fade-left" data-aos-duration="1000" class="flex justify-center">
-                    <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=800&q=80"
-                         alt="ÉLÉGANCE Perfume Bottle"
-                         class="hero-image w-full max-w-md rounded-lg shadow-2xl">
+
+                <!-- Perfume Image -->
+                <div data-aos="fade-left" data-aos-duration="1000" class="flex justify-center md:justify-end">
+                    <div class="relative">
+                        <img src="{{asset('perfume.png')}}"
+                            alt="ÉLÉGANCE Perfume Bottle"
+                            class="w-full  rounded-2xl shadow-2xl transform hover:scale-105 transition duration-700 ease-out">
+                        <div class="absolute inset-0 rounded-2xl ring-2 ring-gold/40 blur-sm opacity-40"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+
 
     <!-- Fragrance Notes Section -->
     <section id="notes" class="py-20 px-4 bg-white">
