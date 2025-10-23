@@ -27,9 +27,12 @@ export default function Sidebar() {
                 </li>
             )}
 
-            <li className="menu-header small text-uppercase">
-              <span className="menu-header-text">Administrator</span>
-            </li>
+
+            {can(auth?.user.permissions, ['app.role.index', 'app.user.index']) && (
+                <li className="menu-header small text-uppercase">
+                <span className="menu-header-text">Administrator</span>
+                </li>
+            )}
 
             {can(auth?.user.permissions, 'app.role.index') && (
                 <li className={`menu-item ${isActive === '/role' ? 'active' : ''}`}>
@@ -50,7 +53,7 @@ export default function Sidebar() {
             )}
 
             <li className="menu-header small text-uppercase">
-              <span className="menu-header-text">Setting</span>
+              <span className="menu-header-text">Settings</span>
             </li>
             {can(auth?.user.permissions, 'app.setting.index') && (
                 <li className={`menu-item ${isActive === '/setting' ? 'active' : ''}`}>
