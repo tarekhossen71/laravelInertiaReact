@@ -58,8 +58,4 @@ class User extends Authenticatable
         return $this->role->permissions->where('slug',$permission)->first() ? true : false;
     }
 
-    public function subscriptions()
-    {
-        return $this->hasMany(\Laravel\Cashier\Subscription::class);
-    }
 }
