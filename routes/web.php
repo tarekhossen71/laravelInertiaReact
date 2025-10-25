@@ -72,18 +72,4 @@ Route::group(['as'=>'app.','middleware'=>['auth','permission']], function(){
     Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
     Route::post('settings/store-or-update', [SettingController::class, 'storeOrUpdate'])->name('setting.store-or-update');
 
-    // Plan CRUD
-    Route::resource('plan', PlanController::class)->names([
-        'index' => 'plan.index',
-        'create' => 'plan.create',
-        'store' => 'plan.store',
-        'edit' => 'plan.edit',
-        'update' => 'plan.update',
-        'destroy' => 'plan.destroy',
-    ]);
-
-    // Subscriptions
-    Route::get('subscription', [SubscriptionController::class,'index'])->name('subscription.index');
-    Route::get('subscription/create', [SubscriptionController::class,'create'])->name('subscription.create');
-    Route::post('subscription', [SubscriptionController::class,'store'])->name('subscription.store');
 });

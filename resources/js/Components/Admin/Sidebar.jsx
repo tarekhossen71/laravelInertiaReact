@@ -64,23 +64,6 @@ export default function Sidebar() {
                 </li>
             )}
 
-            {can(auth?.user.permissions, 'app.setting.index') && (
-                <li className={`menu-item ${isActive === '/plan' ? 'active' : ''}`}>
-                    <Link href={route('app.plan.index')} className="menu-link">
-                        <i className="menu-icon tf-icons bx bx-user"></i>
-                        <div>Plan</div>
-                    </Link>
-                </li>
-            )}
-            {can(auth?.user.permissions, 'app.setting.index') && (
-                <li className={`menu-item ${isActive === '/subscription' ? 'active' : ''}`}>
-                    <Link href={route('app.subscription.index')} className="menu-link">
-                        <i className="menu-icon tf-icons bx bx-user"></i>
-                        <div>Subscription</div>
-                    </Link>
-                </li>
-            )}
-
             <li className={`menu-item ${isActive === '/profile' ? 'active' : ''}`}>
                 <Link href={route('profile.edit')} className="menu-link">
                     <i className="menu-icon tf-icons bx bx-user"></i>
