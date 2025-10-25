@@ -22,8 +22,6 @@
     "dependencies": {
         "@inertiajs/inertia": "^0.11.1",
         "@inertiajs/inertia-react": "^0.8.1",
-        "@stripe/react-stripe-js": "^5.2.0",
-        "@stripe/stripe-js": "^8.1.0",
         "bootstrap": "^5.3.8",
         "boxicons": "^2.1.4",
         "react-toastify": "^11.0.5",
