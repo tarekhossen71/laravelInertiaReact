@@ -12,9 +12,6 @@ export default function FrontendLayout({ children, title }) {
                         Utilitfy
                     </Link>
                     <div>
-                        <Link href={route("app.subscription.create")} className="btn btn-outline-primary me-2">
-                            Subscribe
-                        </Link>
                         <Link href={route("login")} className="btn btn-primary">
                             Login
                         </Link>
