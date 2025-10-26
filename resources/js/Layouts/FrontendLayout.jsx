@@ -9,7 +9,7 @@ export default function FrontendLayout({ children, title }) {
             <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
                 <div className="container">
                     <Link href="/" className="navbar-brand fw-bold text-primary">
-                        Utilitfy
+                        {/* Utilitfy */}
                     </Link>
                     <div>
                         <Link href={route("login")} className="btn btn-primary">

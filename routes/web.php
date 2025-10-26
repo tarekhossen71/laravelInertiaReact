@@ -27,6 +27,12 @@ Route::get('/landing', function () {
 Route::get('/landing2', function () {
     return view('landing2');
 });
+Route::get('/t-shirt', function () {
+    return view('t-shirt');
+});
+Route::get('/t-shirt2', function () {
+    return view('t-shirt2');
+});
 Route::get('/', function () {
     return Inertia::render('Home');
 });
