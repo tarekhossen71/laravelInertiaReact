@@ -84,6 +84,39 @@ class PermissionSeeder extends Seeder
             'slug'=>'app.user.bulk-delete'
         ]);
 
+        // Product Permission
+        $productModule = Module::updateOrCreate(['name'=>'Product Manage'],['name'=>'Product Manage']);
+        Permission::updateOrCreate([
+            'module_id'=>$productModule->id,
+            'name'=>'Access',
+            'slug'=>'app.product.index'
+        ]);
+        Permission::updateOrCreate([
+            'module_id'=>$productModule->id,
+            'name'=>'Create',
+            'slug'=>'app.product.create'
+        ]);
+        Permission::updateOrCreate([
+            'module_id'=>$productModule->id,
+            'name'=>'Edit',
+            'slug'=>'app.product.edit'
+        ]);
+        Permission::updateOrCreate([
+            'module_id'=>$productModule->id,
+            'name'=>'View',
+            'slug'=>'app.product.view'
+        ]);
+        Permission::updateOrCreate([
+            'module_id'=>$productModule->id,
+            'name'=>'Delete',
+            'slug'=>'app.product.delete'
+        ]);
+        Permission::updateOrCreate([
+            'module_id'=>$productModule->id,
+            'name'=>'Bulk Delete',
+            'slug'=>'app.product.bulk-delete'
+        ]);
+
         // Setting Permission
         $appointmentModule = Module::updateOrCreate(['name'=>'Setting Manage'],['name'=>'Setting Manage']);
         Permission::updateOrCreate([

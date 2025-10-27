@@ -52,6 +52,19 @@ export default function Sidebar() {
             )}
 
             <li className="menu-header small text-uppercase">
+              <span className="menu-header-text">Generel</span>
+            </li>
+
+            {/* {can(auth?.user.permissions, 'app.product.index') && ( */}
+                <li className={`menu-item ${isActive === '/product' ? 'active' : ''}`}>
+                    <Link href={route('app.product.index')} className="menu-link">
+                        <i className="menu-icon tf-icons bx bx-user"></i>
+                        <div>Products</div>
+                    </Link>
+                </li>
+            {/* )} */}
+
+            <li className="menu-header small text-uppercase">
               <span className="menu-header-text">Settings</span>
             </li>
 
