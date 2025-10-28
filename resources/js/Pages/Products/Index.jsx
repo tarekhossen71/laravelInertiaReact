@@ -164,7 +164,7 @@ export default function ProductIndex({ products, filters, pageTitle }) {
                                         <td>{idx + 1}</td>
                                         <td>
                                             <img
-                                                src={p.image}
+                                                src={p.main_image}
                                                 alt={p.name}
                                                 style={{ width: "50px" }}
                                             />

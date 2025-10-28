@@ -13,7 +13,11 @@ export default function InputBox({
   showStar = '',   // ✅ label er pase star
   groupClass = "mb-3",
   inputClass = "form-control",
+  min = '',
+  max ='',
 }) {
+    console.log(errors);
+
   return (
     <div className={groupClass}>
       {labelName && (
@@ -30,6 +34,8 @@ export default function InputBox({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        min={min}
+        max={max}
       />
 
       {errors[name] && <div className="invalid-feedback">{errors[name]}</div>}

@@ -29,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
                     'error' => session('error'),
                 ];
             },
+            'app_url' => config('app.url'),
             'auth' => function () {
                 $user = auth()->user();
                 if (!$user) return null;

@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('variants', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
-            $table->string('size')->nullable();
-            $table->string('color')->nullable();
-            $table->string('sleeve_type')->nullable();
-            $table->string('collar_type')->nullable();
+            $table->json('size')->nullable();
+            $table->json('color')->nullable();
+            $table->json('sleeve_type')->nullable();
+            $table->json('collar_type')->nullable();
             $table->decimal('price', 10, 2)->nullable();
             $table->integer('stock_qty')->default(0);
             $table->timestamps();

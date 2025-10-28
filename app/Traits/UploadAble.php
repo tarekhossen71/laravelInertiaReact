@@ -50,4 +50,11 @@ trait UploadAble
         }
         return false;
     }
+    public function deleteFile($filename){
+        if (file_exists($filename)) {
+            unlink($filename);
+            return true;
+        }
+        return false;
+    }
 }

@@ -1,23 +1,33 @@
 import React, { useRef, useState, useEffect } from "react";
+import { getAppUrl } from "@/config/appConfig";
 
 export default function FileUploadBox({
   labelName = "Upload Files",
   name = "files",
   multiple = false,
   accept = "image/*",
-  required = false,   // HTML required
-  showStar = '',      // label er pase star
+  required = false,
+  showStar = "",
   errors = {},
   groupClass = "mb-3",
   boxClass = "",
   onChange,
   value = [],
-  image = null,       // Old image URL
+  image = null, // old image or array of images
 }) {
-  const [files, setFiles] = useState([]);
+  const baseUrl = getAppUrl();
+  const [files, setFiles] = useState([]); // new uploads
+  const [oldImagesState, setOldImagesState] = useState(
+    image && (Array.isArray(image) || typeof image === "object")
+      ? Object.values(image)
+      : image
+      ? [image]
+      : []
+  );
+
   const inputRef = useRef(null);
 
-  // Handle file selection
+  // Handle new file selection
   const handleFiles = (selectedFiles) => {
     let fileArray = Array.from(selectedFiles);
     if (!multiple) fileArray = [fileArray[0]];
@@ -28,33 +38,39 @@ export default function FileUploadBox({
     }));
 
     const updatedFiles = multiple ? [...files, ...mapped] : mapped;
-
     setFiles(updatedFiles);
-    if (onChange) onChange(updatedFiles.map((f) => f.file));
+
+    // Send both old + new files to parent
+    if (onChange)
+      onChange({
+        newFiles: updatedFiles.map((f) => f.file),
+        oldFiles: oldImagesState,
+      });
   };
 
-  // Drag & drop handlers
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.dataTransfer.files?.length > 0) {
-      handleFiles(e.dataTransfer.files);
-    }
-  };
-
-  // Remove file
+  // Remove new uploaded file
   const removeFile = (index) => {
     const newFiles = files.filter((_, i) => i !== index);
     setFiles(newFiles);
-    if (onChange) onChange(newFiles.map((f) => f.file));
+    if (onChange)
+      onChange({
+        newFiles: newFiles.map((f) => f.file),
+        oldFiles: oldImagesState,
+      });
   };
 
-  // Cleanup previews
+  // Remove old image
+  const removeOldImage = (index) => {
+    const newOldImages = oldImagesState.filter((_, i) => i !== index);
+    setOldImagesState(newOldImages);
+    if (onChange)
+      onChange({
+        newFiles: files.map((f) => f.file),
+        oldFiles: newOldImages,
+      });
+  };
+
+  // Cleanup object URLs
   useEffect(() => {
     return () => {
       files.forEach((f) => URL.revokeObjectURL(f.preview));
@@ -70,10 +86,13 @@ export default function FileUploadBox({
       )}
 
       <div
-        className={`border border-2 border-dashed rounded p-3 position-relative text-center ${boxClass}`}
+        className={`border rounded p-3 position-relative text-center ${boxClass}`}
         onClick={() => inputRef.current.click()}
-        onDragOver={handleDragOver}
-        onDrop={handleDrop}
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={(e) => {
+          e.preventDefault();
+          if (e.dataTransfer.files?.length > 0) handleFiles(e.dataTransfer.files);
+        }}
         style={{
           minHeight: "130px",
           display: "flex",
@@ -94,33 +113,57 @@ export default function FileUploadBox({
           onChange={(e) => handleFiles(e.target.files)}
         />
 
-        {/* Show selected files or old image */}
-        {files.length > 0 ? (
-          files.map((item, index) => (
+        {/* 1️⃣ Show old images first */}
+        {oldImagesState.length > 0 &&
+          oldImagesState.map((url, idx) => (
             <div
-              key={index}
+              key={`old-${idx}`}
               className="position-relative"
               style={{
-                width: "150px",
-                height: "150px",
+                width: "120px",
+                height: "120px",
                 borderRadius: "10px",
                 overflow: "hidden",
                 border: "1px solid #ddd",
-                objectFit: "cover",
               }}
             >
-              {item.file.type.startsWith("image/") ? (
-                <img
-                  src={item.preview}
-                  alt={item.file.name}
-                  className="w-100 h-100 object-fit-cover"
-                />
-              ) : (
-                <div className="d-flex align-items-center justify-content-center h-100">
-                  <i className="bx bx-file fs-1 text-secondary"></i>
-                </div>
-              )}
+              <img
+                src={baseUrl + url}
+                alt={`Old ${idx}`}
+                className="w-100 h-100 object-fit-cover"
+              />
+              <button
+                type="button"
+                className="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 p-1"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeOldImage(idx);
+                }}
+              >
+                ✕
+              </button>
+            </div>
+          ))}
 
+        {/* 2️⃣ Show new uploaded files */}
+        {files.length > 0 &&
+          files.map((item, index) => (
+            <div
+              key={`new-${index}`}
+              className="position-relative"
+              style={{
+                width: "120px",
+                height: "120px",
+                borderRadius: "10px",
+                overflow: "hidden",
+                border: "1px solid #ddd",
+              }}
+            >
+              <img
+                src={item.preview}
+                alt={item.file.name}
+                className="w-100 h-100 object-fit-cover"
+              />
               <button
                 type="button"
                 className="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 p-1"
@@ -132,25 +175,10 @@ export default function FileUploadBox({
                 ✕
               </button>
             </div>
-          ))
-        ) : image ? (
-          <div
-            className="position-relative"
-            style={{
-              width: "150px",
-              height: "150px",
-              borderRadius: "10px",
-              overflow: "hidden",
-              border: "1px solid #ddd",
-            }}
-          >
-            <img
-              src={image}
-              alt="Old Avatar"
-              className="w-100 h-100 object-fit-cover"
-            />
-          </div>
-        ) : (
+          ))}
+
+        {/* 3️⃣ Empty state */}
+        {files.length === 0 && oldImagesState.length === 0 && (
           <div>
             <p className="mb-1">
               <i className="bx bx-cloud-upload fs-3 text-primary"></i>
@@ -166,24 +194,3 @@ export default function FileUploadBox({
     </div>
   );
 }
-
-
-
-// Don't remove below code
-// Single file upload
-{/* <FileUploadBox
-  labelName="Profile Image"
-  name="profile_image"
-  multiple={false}
-  onChange={(files) => setProfileImage(files[0])}
-  errors={errors}
-/> */}
-
-// Multiple file upload
-{/* <FileUploadBox
-  labelName="Gallery Images"
-  name="gallery"
-  multiple={true}
-  onChange={(files) => setGallery(files)}
-  errors={errors}
-/> */}

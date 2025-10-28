@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Head, Link, useForm, usePage } from "@inertiajs/react";
+import { Head, Link, router, useForm, usePage } from "@inertiajs/react";
 import AdminLayout from "@/Layouts/AdminLayout";
 import Breadcrumb from "@/Components/Admin/Breadcrumb";
 import InputBox from "@/Components/form/InputBox";
-import SelectBox from "@/Components/form/SelectBox";
 import FileUploadBox from "@/Components/form/FileUploadBox";
 import { toast, ToastContainer } from "react-toastify";
 
-export default function ProductCreate({ pageTitle, statuses }) {
+export default function ProductCreate({ pageTitle }) {
   const { flash, errors } = usePage().props;
 
   const [mainImage, setMainImage] = useState(null);
@@ -15,7 +14,6 @@ export default function ProductCreate({ pageTitle, statuses }) {
 
   const { data, setData, post, processing } = useForm({
     name: "",
-    slug: "",
     sku: "",
     price: "",
     description: "",
@@ -23,15 +21,31 @@ export default function ProductCreate({ pageTitle, statuses }) {
     seo_title: "",
     seo_meta_tags: "",
     seo_description: "",
+    seo_keywords: "",
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    post(route("app.product.store"), {
-      data: { ...data },
-      main_image: mainImage,
-      gallery_images: galleryImages,
+
+    const formData = new FormData();
+
+    // Add normal text data
+    Object.keys(data).forEach((key) => {
+        formData.append(key, data[key]);
     });
+
+    // Add main image
+    if (mainImage) {
+        formData.append("main_image", mainImage);
+    }
+
+    // Add gallery images
+    if (galleryImages.length > 0) {
+        galleryImages.forEach((file, index) => {
+        formData.append(`gallery_images[${index}]`, file);
+        });
+    }
+    router.post(route("app.product.store"), formData);
   };
 
   useEffect(() => {
@@ -74,7 +88,7 @@ export default function ProductCreate({ pageTitle, statuses }) {
             <div className="card-body p-3">
               {flash?.success && <div className="alert alert-success">{flash.success}</div>}
 
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="row">
                   {/* Product Name */}
                   <div className="col-md-4">
@@ -86,19 +100,6 @@ export default function ProductCreate({ pageTitle, statuses }) {
                       errors={errors}
                       showStar="required"
                       placeholder="Enter Product Name"
-                    />
-                  </div>
-
-                  {/* Slug */}
-                  <div className="col-md-4">
-                    <InputBox
-                      labelName="Slug"
-                      name="slug"
-                      value={data.slug}
-                      onChange={(e) => setData("slug", e.target.value)}
-                      errors={errors}
-                      showStar="required"
-                      placeholder="Enter Slug"
                     />
                   </div>
 

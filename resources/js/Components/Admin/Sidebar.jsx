@@ -1,12 +1,20 @@
 import { Link, usePage } from '@inertiajs/react';
 import { can } from '@/utils/permission';
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function Sidebar() {
     const { auth  } = usePage().props;
     const  isActive  = usePage().url;
     // console.log(auth.user.permissions);
-    // console.log(isActive);
+    // console.log(isActive.startsWith('/product'));
+    const [openMenus, setOpenMenus] = useState({});
+
+    const toggleMenu = (key) => {
+        setOpenMenus((prev) => ({
+        ...prev,
+        [key]: !prev[key],
+        }));
+    };
 
 
   return (
@@ -55,18 +63,47 @@ export default function Sidebar() {
               <span className="menu-header-text">Generel</span>
             </li>
 
-            {/* {can(auth?.user.permissions, 'app.product.index') && ( */}
+            {/* {can(auth?.user.permissions, 'app.product.index') && (
                 <li className={`menu-item ${isActive === '/product' ? 'active' : ''}`}>
                     <Link href={route('app.product.index')} className="menu-link">
                         <i className="menu-icon tf-icons bx bx-user"></i>
                         <div>Products</div>
                     </Link>
                 </li>
-            {/* )} */}
+            )} */}
+           {can(auth?.user.permissions, 'app.product.index') && (
+                <li className={`menu-item ${isActive.startsWith('/product') ? 'active open' : ''}`}>
+                    <a
+                    href="#!"
+                    className="menu-link menu-toggle"
+                    onClick={() => toggleMenu("products")}
+                    >
+                    <i className="menu-icon tf-icons bx bx-layout"></i>
+                    <div>Products</div>
+                    </a>
+
+                    <ul className={`menu-sub ${openMenus["products"] || isActive.startsWith('/product') ? "d-block" : "d-none"}`}>
+                        <li className={`menu-item ${isActive.startsWith('/product') ? 'active' : ''}`}>
+                            <Link href={route('app.product.index')} className="menu-link">
+                                <div>Product List</div>
+                            </Link>
+                        </li>
+                        <li className={`menu-item ${isActive.startsWith('/variant') ? 'active' : ''}`}>
+                            <Link href={route('app.variant.index')} className="menu-link">
+                                <div>Variant</div>
+                            </Link>
+                        </li>
+                    </ul>
+                </li>
+            )}
+
+
 
             <li className="menu-header small text-uppercase">
               <span className="menu-header-text">Settings</span>
             </li>
+
+
 
             {can(auth?.user.permissions, 'app.setting.index') && (
                 <li className={`menu-item ${isActive === '/setting' ? 'active' : ''}`}>
