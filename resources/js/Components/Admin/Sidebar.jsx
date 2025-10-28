@@ -5,9 +5,13 @@ import React, { useState } from 'react'
 export default function Sidebar() {
     const { auth  } = usePage().props;
     const  isActive  = usePage().url;
+    const [openMenus, setOpenMenus] = useState({});
+    const activeProductRoutes = ['/product', '/variant'];
+    const isProductMenuActive = activeProductRoutes.some(route => isActive.startsWith(route));
+    const isProductsOpen = openMenus["products"] !== undefined ? openMenus["products"] : isProductMenuActive;
+
     // console.log(auth.user.permissions);
     // console.log(isActive.startsWith('/product'));
-    const [openMenus, setOpenMenus] = useState({});
 
     const toggleMenu = (key) => {
         setOpenMenus((prev) => ({
@@ -63,26 +67,18 @@ export default function Sidebar() {
               <span className="menu-header-text">Generel</span>
             </li>
 
-            {/* {can(auth?.user.permissions, 'app.product.index') && (
-                <li className={`menu-item ${isActive === '/product' ? 'active' : ''}`}>
-                    <Link href={route('app.product.index')} className="menu-link">
-                        <i className="menu-icon tf-icons bx bx-user"></i>
-                        <div>Products</div>
-                    </Link>
-                </li>
-            )} */}
            {can(auth?.user.permissions, 'app.product.index') && (
-                <li className={`menu-item ${isActive.startsWith('/product') ? 'active open' : ''}`}>
+                <li className={`menu-item ${isProductsOpen ? 'active open' : ''}`}>
                     <a
-                    href="#!"
-                    className="menu-link menu-toggle"
-                    onClick={() => toggleMenu("products")}
+                        href="#"
+                        className="menu-link menu-toggle"
+                        onClick={() => toggleMenu("products")}
                     >
-                    <i className="menu-icon tf-icons bx bx-layout"></i>
-                    <div>Products</div>
+                        <i className="menu-icon tf-icons bx bx-layout"></i>
+                        <div>Products</div>
                     </a>
 
-                    <ul className={`menu-sub ${openMenus["products"] || isActive.startsWith('/product') ? "d-block" : "d-none"}`}>
+                    <ul className={`menu-sub ${isProductsOpen ? "d-block" : "d-none"}`}>
                         <li className={`menu-item ${isActive.startsWith('/product') ? 'active' : ''}`}>
                             <Link href={route('app.product.index')} className="menu-link">
                                 <div>Product List</div>
@@ -96,8 +92,6 @@ export default function Sidebar() {
                     </ul>
                 </li>
             )}
-
-
 
             <li className="menu-header small text-uppercase">
               <span className="menu-header-text">Settings</span>

@@ -16,8 +16,6 @@ export default function InputBox({
   min = '',
   max ='',
 }) {
-    console.log(errors);
-
   return (
     <div className={groupClass}>
       {labelName && (

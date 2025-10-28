@@ -75,7 +75,7 @@ class VariantController extends Controller
         return Inertia::render('Variants/Edit', [
             'variant' => $variant,
             'products' => Product::select('id','name')->get(),
-            'pageTitle' => 'Variant Edit',
+            'pageTitle' => 'Variant',
         ]);
     }
 

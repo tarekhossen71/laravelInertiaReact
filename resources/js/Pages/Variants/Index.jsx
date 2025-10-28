@@ -77,8 +77,6 @@ export default function VariantIndex({ variants, filters, pageTitle }) {
         });
     };
 
-    console.log(variants);
-
     return (
         <AdminLayout>
             <Head title={pageTitle} />
