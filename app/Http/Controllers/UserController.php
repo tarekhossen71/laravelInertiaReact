@@ -71,7 +71,7 @@ class UserController extends Controller
         $collection = collect($request->validated())->except(['password','password_confirmation']);
         $avatar = null;
         if ($request->hasFile('avatar')) {
-            $avatar = $this->upload_file($request->avatar, 'users/');
+            $avatar = 'uploads/users/'.$this->upload_file($request->avatar, 'users/');
         }
         $collection = $collection->merge([
             'password' => bcrypt($request->password),
@@ -97,7 +97,7 @@ class UserController extends Controller
             'role_id'    => $user->role_id,
             'mobile_no'  => $user->mobile_no,
             'avatar'     => $user->avatar,
-            'preview'    => $user->avatar ? asset('uploads/users/'.$user->avatar) : '',
+            'preview'    => $user->avatar ? 'uploads/users/'.$user->avatar : '',
             'gender'     => $user->gender,
         ];
         return Inertia::render('Users/Edit', [
@@ -117,7 +117,7 @@ class UserController extends Controller
         $avatar = $request->old_image;
         // dd($request->all());
         if ($request->hasFile('avatar')) {
-            $avatar = $this->upload_file($request->avatar, 'users/');
+            $avatar = 'uploads/users/'.$this->upload_file($request->avatar, 'users/');
 
             if(!empty($request->old_image)){
                 $this->delete_file($user->avatar, 'users/');
