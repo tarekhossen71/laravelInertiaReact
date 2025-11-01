@@ -6,6 +6,8 @@ import InputBox from "@/Components/form/InputBox";
 import FileUploadBox from "@/Components/form/FileUploadBox";
 import { toast, ToastContainer } from "react-toastify";
 import { getAppUrl } from '@/config/appConfig';
+import { SingleImageUpload } from "@/Components/form/SingleImageUpload";
+import { MultipleImageUpload } from "@/Components/form/MultipleImageUpload";
 
 
 export default function ProductEdit({ pageTitle }) {
@@ -211,7 +213,7 @@ export default function ProductEdit({ pageTitle }) {
 
                   {/* Main Image */}
                   <div className="col-md-6">
-                    <FileUploadBox
+                    <SingleImageUpload
                         labelName="Main Image"
                         name="main_image"
                         multiple={false}
@@ -226,7 +228,7 @@ export default function ProductEdit({ pageTitle }) {
 
                   {/* Gallery Images */}
                   <div className="col-md-6">
-                    <FileUploadBox
+                    <MultipleImageUpload
                         labelName="Gallery Images"
                         name="gallery_images"
                         multiple={true}

@@ -6,6 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import InputBox from '@/Components/form/InputBox';
 import SelectBox from '@/Components/form/SelectBox';
 import FileUploadBox from '@/Components/form/FileUploadBox';
+import { SingleImageUpload } from '@/Components/form/SingleImageUpload';
 
 export default function UserEdit({ pageTitle, roles, genders, user }) {
     const { errors, flash } = usePage().props; // ✅ Laravel theke automatic asbe
@@ -129,7 +130,7 @@ export default function UserEdit({ pageTitle, roles, genders, user }) {
                                         />
                                     </div>
                                     <div className="col-md-4">
-                                        <FileUploadBox labelName="Avatar" name="avatar" multiple={false} onChange={(files) => setAvatar(files[0])} errors={errors} image={preview}/>
+                                        <SingleImageUpload labelName="Avatar" name="avatar" multiple={false} onChange={(files) => setAvatar(files[0])} errors={errors} image={preview}/>
                                     </div>
                                 </div>
 
